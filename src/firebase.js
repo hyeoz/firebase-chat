@@ -26,3 +26,4 @@ initializeApp(firebaseConfig);
 // export const analytics = getAnalytics(app);
 export const getUser = getAuth();
 export const getReatimeDB = getDatabase();
+export const getImgStorage = getStorage();

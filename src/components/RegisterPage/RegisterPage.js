@@ -3,6 +3,7 @@ import { ref, set } from "firebase/database";
 import md5 from "md5";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getReatimeDB, getUser } from "../../firebase";
 
@@ -40,6 +41,7 @@ export default function RegisterPage() {
         name: createdUser.user.displayName,
         image: createdUser.user.photoURL,
       });
+      await useHistory.push("/");
     } catch (error) {
       setSubmitError(error.message);
       setLoading(false);

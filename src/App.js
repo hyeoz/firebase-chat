@@ -9,7 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getUser } from "./firebase";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "./redux/actions/user_action";
+import { setUser, clearUser } from "./redux/actions/user_action";
 
 function App() {
   const history = useHistory();
@@ -25,6 +25,7 @@ function App() {
         dispatch(setUser(user));
       } else {
         history.push("/register");
+        dispatch(clearUser());
       }
     });
   }, [dispatch, history]);
