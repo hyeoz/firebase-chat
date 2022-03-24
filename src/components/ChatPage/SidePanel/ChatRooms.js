@@ -71,7 +71,7 @@ export default function ChatRooms() {
   };
 
   useEffect(() => {
-    // onValue 로 한 번 트리거 된 후 자식노드가 업데이트 될 때마다 리렌더링 됨
+    // onValue 로 한 번 데이터 불러오기가 트리거 된 후 자식노드가 업데이트 될 때마다 리렌더링 됨
     onValue(ref(getReatimeDB, "chatrooms/"), async (snapshot) => {
       const rooms = snapshot.val();
       // 객채로 반환하여 배열로 바꾸기, 첫번째 선택된 chatroom store 가 가장 최근 채팅룸이 되도록 하게
