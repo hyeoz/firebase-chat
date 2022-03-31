@@ -76,11 +76,10 @@ export default function ChatRooms() {
       const rooms = snapshot.val();
       // 객채로 반환하여 배열로 바꾸기, 첫번째 선택된 chatroom store 가 가장 최근 채팅룸이 되도록 하게
       // console.log(rooms, "set detail");
-      setChatroomsDetail((prev) => prev.concat(Object.entries(rooms)));
-
+      setChatroomsDetail(Object.entries(rooms));
       // !!바로 렌더링 되지 않는 이유는 setState 비동기화 문제..!!
       if (isItFirst) {
-        // console.log("is it first");
+        console.log(chatroomsDetail, "is it first");
         setFirstChatroom();
       }
     });

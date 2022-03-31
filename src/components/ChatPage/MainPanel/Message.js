@@ -3,6 +3,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 export default function Message(message, user) {
+  // console.log(message, user, "Message Component test");
   const isMine = (message, user) => {
     if (message.user.id === user.uid) return "#ececec";
   };

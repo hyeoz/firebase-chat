@@ -12,7 +12,8 @@ import { FaLock } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 
-export default function MessageHeader(handleSearchChange) {
+export default function MessageHeader({ handleSearchChange }) {
+  // console.log(typeof handleSearchChange, "Message Header");
   return (
     <div
       style={{
