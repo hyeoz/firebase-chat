@@ -1,4 +1,4 @@
-import { child, onValue, push, ref, update } from "firebase/database";
+import { child, get, onValue, push, ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { FaPlus, FaRegSmileWink } from "react-icons/fa";
@@ -56,6 +56,7 @@ export default function ChatRooms() {
       alert(error);
     }
   };
+
   // console.log(chatroomsDetail, "test");
   const dispatch = useDispatch();
   const chatroomStore = (room) => {
@@ -63,21 +64,25 @@ export default function ChatRooms() {
   };
 
   const setFirstChatroom = () => {
-    // console.log(chatroomsDetail[0][1]);
-    // undefined '1' 에러 뜨는데 실행은 됨. 에러 안뜨게 하는 방법 찾기!!
-    chatroomStore(chatroomsDetail[0][1]);
-    setActiveChatroomId(chatroomsDetail[0][1].id);
+    // console.log(chatroomsDetail, "chatroom detail");
+    chatroomStore(chatroomsDetail[0] && chatroomsDetail[0][1]);
+    setActiveChatroomId(chatroomsDetail[0] && chatroomsDetail[0][1].id);
     setIsItFirst(false);
   };
 
   useEffect(() => {
     // onValue 로 한 번 데이터 불러오기가 트리거 된 후 자식노드가 업데이트 될 때마다 리렌더링 됨
-    onValue(ref(getReatimeDB, "chatrooms/"), async (snapshot) => {
+    onValue(ref(getReatimeDB, "chatrooms/"), (snapshot) => {
       const rooms = snapshot.val();
       // 객채로 반환하여 배열로 바꾸기, 첫번째 선택된 chatroom store 가 가장 최근 채팅룸이 되도록 하게
-      setChatroomsDetail(Object.entries(rooms));
-      // console.log(chatroomsDetail);
-      if (isItFirst) setFirstChatroom();
+      // console.log(rooms, "set detail");
+      setChatroomsDetail((prev) => prev.concat(Object.entries(rooms)));
+
+      // !!바로 렌더링 되지 않는 이유는 setState 비동기화 문제..!!
+      if (isItFirst) {
+        // console.log("is it first");
+        setFirstChatroom();
+      }
     });
   }, []);
 
@@ -101,14 +106,14 @@ export default function ChatRooms() {
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {chatroomsDetail
           ? chatroomsDetail.map((room) => {
-              // console.log(room);
+              // console.log(room, "room test");
               return (
                 <li
                   style={{
                     backgroundColor:
-                      room[1].id === activeChatroomId && "#ffffff45",
+                      room[1]?.id === activeChatroomId && "#ffffff45",
                   }}
-                  key={room[1].id}
+                  key={room[1]?.id}
                   onClick={() => {
                     // console.log(room[1], "채팅방 클릭");
                     chatroomStore(room[1]);
